@@ -1,6 +1,7 @@
 {
-    "notify_times": ["18:30"],
-    "default_city": "Cleveland",
-    "default_personality": "angry"
-  }
-  
+    "Zip": "44047",
+    "Personality": "Angry",
+    "Notify_Times": [
+        "23:42"
+    ]
+}

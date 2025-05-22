@@ -1,6 +1,7 @@
-import time
+#watches json for changes and restarts the scheduler process
+import time #for the test per time
 import subprocess
-from watchdog.observers import Observer
+from watchdog.observers import Observer #watchdog to monitor file changes
 from watchdog.events import FileSystemEventHandler
 
 #start the scheduler process

@@ -9,12 +9,12 @@ from main import show_notification
 with open("config.json", "r") as file:
     config = json.load(file)
 
-notify_times = config.get("notify_times", [])
-city = config.get("default_city", "Cleveland")
-personality = config.get("default_personality", "calm")
+notify_times = config.get("Notify_Times", "08:00")
+Zip = config.get("Zip", "44032")
+personality = config.get("Personality", "Poetic")
 
 def run_sky_scribe():
-    weather_info = fetch_weather(city)
+    weather_info = fetch_weather(Zip)
     weather_info["personality"] = personality
     quote = generate_quote(weather_info)
     show_notification(weather_info, quote)

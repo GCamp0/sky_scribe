@@ -17,11 +17,11 @@ def test_api_key():
 
 #collect weather data from the API
 #TODO: add error handling for invalid data returns
-def fetch_weather(city):
+def fetch_weather(Zip):
     fetch_url = (
-        f"https://api.openweathermap.org/data/2.5/weather"
-        f"?q={city}&appid={api_key}&units=imperial"
+    f"https://api.openweathermap.org/data/2.5/weather?zip={Zip},us&appid={api_key}&units=imperial"
     )
+
     response = requests.get(fetch_url)
     data = response.json()
     print(data)
