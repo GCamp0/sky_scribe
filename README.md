@@ -1,88 +1,62 @@
-# Sky Scribe: AI-Powered Weather Notification App
+# Sky Scribe
 
-Sky Scribe is a Python desktop assistant I built that combines live weather data with AI-generated quotes. The idea was to create something that runs daily and gives me a little bit of poetic motivation based on the weather in my area. This is my first independent Python Project so if there is any feedback I'd love to hear it.
+Sky Scribe is a personal project I built to sharpen my Python skills while creating something functional and focused on user experience. It's a macOS desktop app that combines real-time weather data and AI to generate quotes tailored to both the weather and the user's chosen personality. These quotes are then displayed as native macOS notifications on a schedule or on demand.
 
----
+The project taught me how to structure an application, build a user-friendly GUI, and handle cross-platform quirks like macOS's UI limitations. I also learned how to work with background schedulers, config files, and local AI models. The result is a real, usable desktop tool that feels cohesive and complete.
 
-## What It Does
-- Pulls weather data for a set Zip using the OpenWeatherMap API
-- Sends the weather details and a chosen personality to a locally hosted AI model using Ollama (I use Gemma)
-- Generates a quote based on that mood and weather
-- Displays the result as a native macOS notification
-- Runs every day at a set time (like 8:00 AM), with support for future time slots
-- Automatically restarts if I change the config file
+This wasn't just about writing code — it was about designing something that feels polished from end to end. I encountered and solved a number of problems you'd run into in real-world software:
+- We hit layout limitations in Tkinter, and I had to learn how to use the grid system precisely to get a clean, centered layout.
+- macOS doesn’t honor custom button colors in Tkinter, so I had to ditch native buttons and recreate them using `Canvas` objects to control how they looked and responded.
+- Scheduling logic had to balance between accurate timing and low CPU usage, so we configured the `schedule` loop to sleep intelligently.
+- I wanted the app to feel responsive, so I implemented a file watcher that auto-restarts the background scheduler when the user updates settings in the GUI.
+- To keep things clean for users, I swapped out city name input for ZIP code support, and made sure all data was validated and handled smoothly.
 
----
+Every one of those steps pushed me to debug, refactor, and rethink how each piece fits together. It wasn't always obvious what was broken — sometimes we had to step back, restructure, or start over with a new approach. But that’s part of the job, and I pushed through every roadblock until the pieces clicked.
+
+## Features
+- Daily notifications with AI-generated weather quotes
+- Configurable ZIP code and personality-based prompts
+- Multi-time daily scheduling (comma-separated entry)
+- "Do Now" button to manually trigger a quote
+- Live config watcher that auto-restarts the scheduler when the config is changed
+- Custom dark-themed GUI built with Tkinter
+- Logo placement and canvas-based buttons to ensure proper rendering on macOS
 
 ## My Role
-I came up with this idea while brainstorming Python portfolio projects. While I used ChatGPT 4o as a tutor and to help fill in the gaps I made sure to understand each piece of code asking questions where I needed to. 
+- Designed the architecture and planned how components should connect
+- Wrote the weather fetch logic, API integration, and AI quote generation logic
+- Developed the GUI layout and styling, iterating multiple times for a clean, professional feel
+- Solved macOS-specific issues with button rendering using canvas-based custom buttons
+- Built the config system and ensured compatibility between GUI, scheduler, and watcher
+- Added support for multiple notification times and switched from city-based to ZIP-based weather fetching
+- Guided the use of AI assistance (ChatGPT) to help generate cleaner code and explore design options, but handled debugging, final implementation, and all project decisions myself
 
-I asked questions to make sure I understood why things were being done a certain way, especially around watchdog, the scheduler, and config system. I also pointed out when code suggestions were wrong or missing something, and I pushed for cleaner architecture and control flow. 
+## AI’s Role
+I used ChatGPT during development as a coding assistant. It helped me speed up implementation, suggested fixes when I was stuck, and provided code snippets to build from. I always reviewed, edited, and integrated everything manually. This app is mine — AI was a tool, not a co-pilot.
 
-One example was when I realized importing `main.py` would trigger unwanted input prompts — so I pushed to only import the necessary functions. I also questioned why we’d use JSON if we were eventually building a UI, and that helped shape the app's direction.
+## Why It Matters
+This project shows that I can take an idea, break it into systems, and follow through to execution. I didn’t just build something that works — I made something that looks and feels like a finished product. It challenged me to understand real development concerns like file structure, modularity, visual design, and user flow. I approached this like a professional, and the final product reflects that. The lessons I learned building Sky Scribe — especially around user input handling, UI responsiveness, and system integration — will carry forward into every other project I build.
 
-I did this all while working a full time job and fixing up my house alone.
+## Requirements
+- Python 3.9+
+- Pillow (for image handling)
+- requests (for OpenWeatherMap API calls)
+- schedule (for timing notifications)
+- watchdog (for monitoring file changes)
+- ollama (for local AI quote generation)
 
----
-
-## What I needed help for
-I used ChatGPT to help figure out a solid structure for the project and which packages to use and how to utilize them. It helped guide me through:
-- Using the `schedule` library to run tasks at specific times
-- Setting up `watchdog` to monitor changes to `config.json`
-- Restarting the scheduler subprocess when the config file updates
-- Using `subprocess.Popen()` and `terminate()` properly
-
-That said, I was the one who put it all together, made it work end-to-end, and fixed any bad assumptions or broken logic.
-
----
-
-## What I Learned
-- How to build scheduled Python scripts that run cleanly in the background
-- How to structure modular Python apps across multiple files
-- How to monitor files and restart processes using `watchdog`
-- Why you use `subprocess.Popen()` instead of trying to import and rerun a file
-- How to write readable, testable, and reusable code
-- How to track and manage changes with Git and GitHub
-
----
-
-## File Breakdown
-- `main.py` – manually runs a single quote cycle using user input
-- `scheduler.py` – runs automatically based on times set in `config.json`
-- `config_watcher.py` – watches for updates to the config and restarts the scheduler
-- `quote_engine.py` – builds and sends the prompt to the AI model
-- `weather_api.py` – gets and formats weather data from OpenWeatherMap
-- `config.json` – lets you set times, Zip, and personality for scheduled use 
-- `.env` – stores the API key securely (not included in GitHub)
-- `requirements.txt` – all the packages I used
-
----
-
-## How To Run
-1. Clone the repo
-2. Add your API key to a `.env` file:
-```bash
-OPENWEATHER_API_KEY=your_key_here
-```
-3. Install dependencies:
+To install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
-4. Set your Zip, mood, and times in `config.json`
-5. Run the config watcher:
+
+If you don't have a `requirements.txt` yet, install manually:
 ```bash
-python3 config_watcher.py
+pip install requests schedule watchdog pillow
 ```
-You’ll get a daily motivational weather update right on your desktop.
 
 ---
 
-## What’s Next
-- Adding a UI so you don’t have to edit `config.json` manually
-- Making it work on Windows and Linux too
-- Storing past quotes to a local file or log
-- Packaging it as a full `.app` for macOS using the custom icon I built
-
----
-
-Sky Scribe started as a side project to help me get better at Python, and it’s already taught me more than a course could’ve. There’s still more I want to do with it, but I’m proud of what I’ve built so far.
+Sky Scribe is still evolving. Next steps include consolidating everything into a unified `app.py`, adding quote history logging, and eventually packaging the entire thing as a standalone `.app` for macOS with a custom icon and launch behavior.
+This is my first independant python project so let me know if you have any advice. 
+Thanks.
