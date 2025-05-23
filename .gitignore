@@ -1,3 +1,24 @@
 __pycache__/
 .env
 *.pyc
+# Python
+__pycache__/
+*.pyo
+*.pyd
+venv/
+env/
+
+# py2app
+build/
+dist/
+
+# DMG + OS X
+*.dmg
+.DS_Store
+
+# Logs
+*.log
+
+# macOS codesign leftovers
+*.xcodeproj/
+EOF

@@ -1,7 +1,6 @@
 {
     "Zip": "44047",
-    "Personality": "Angry",
-    "Notify_Times": [
-        "23:42"
-    ]
+    "Personality": "Happy",
+    "Notify_Times": [],
+    "Api_Key": "9e0bdf8447a0588d92e0dc93e031f0f1"
 }
